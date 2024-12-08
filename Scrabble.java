@@ -104,13 +104,13 @@ public class Scrabble {
 				break;
 
 			if (!MyString.subsetOf(input, hand)) 
-				System.out.println("error! invalid word. Try with other word."); //
+				System.out.println("Invalid word. Try again."); //
 				else {
 					if (!isWordInDictionary(input)) {
-						System.out.println("error! invalid word. Try with other word.");
+						System.out.println("Invalid word. Try again.");
 					} else {
 						score += wordScore(input);
-						System.out.printf("%s earned %d points. Score: %d points\n\n", input, wordScore(input), score);
+						System.out.println(input + " earned " + wordScore(input) + " points. Score: " + score + " points\n");
 						hand = MyString.remove(hand, input);
 						if (hand.isEmpty()) {
 							break;
@@ -138,13 +138,11 @@ public class Scrabble {
 			// Gets the user's input, which is all the characters entered by 
 			// the user until the user enter the ENTER character.
 			String input = in.readString();
-			if (input.equals("e")) {
+			if (input.equals("e"))
 				break;
-			}
-			if (input.equals("n")) {
-				String hand = createHand();
-				playHand(hand);
-			}
+			else
+			if (input.equals("n"))
+				playHand(createHand());
 		}
 	}
 
