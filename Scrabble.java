@@ -62,15 +62,19 @@ public class Scrabble {
 	// If the word includes the sequence "runi", adds 1000 points to the game.
 	public static int wordScore(String word) {
 		int score = 0;
-		
-		for (int i = 0; i < word.length(); i++) 
-			score += SCRABBLE_LETTER_VALUES[Math.max(0, Math.min(25, Character.toLowerCase(word.charAt(i)) - 'a'))];
+		for(int i = 0; i < word.length(); i++)
+			score = score + SCRABBLE_LETTER_VALUES[word.charAt(i) - 'a'];
+
 		score *= word.length();
-		score += word.length() == HAND_SIZE ? 50 : 0;
-		score += MyString.subsetOf("runi", word) ? 1000 : 0;
+		if (word.length() == HAND_SIZE) 
+			score = score + 50;
+			
+		if (MyString.subsetOf("runi" , word))
+			score = score + 1000;
 		
 		return score;
 	}
+
 
 	// Creates a random hand of length (HAND_SIZE - 2) and then inserts
 	// into it, at random indexes, the letters 'a' and 'e'
@@ -99,25 +103,34 @@ public class Scrabble {
 			// non-whitespace characters. Whitespace is either space characters, or  
 			// end-of-line characters.
 			String input = in.readString();
-			if (input.equals("."))
+			if (input.equals(".")){
 				break;
-
-			if (!MyString.subsetOf(input, hand))
-					System.out.println("Invalid word. Try again.");
-			else {
-					if (!isWordInDictionary(input))
-						System.out.println("Invalid word. Try again.");
-					else {
-						score += wordScore(input);
-						System.out.println(input + " earned " + wordScore(input) + " points. Score: " + score + " points\n");
-						hand = MyString.remove(hand, input); 
-		
-						if (hand.isEmpty())
-							break;  
-					}
-				}
+			}
+			if(isWordInDictionary(input)){
+			if (!MyString.subsetOf(input, hand)){
+				hand = MyString.remove(hand, input);
+				int w = wordScore(input);
+				score += w;
+				System.out.println(input + " earned" + w + " points. Score: " + score + " points\n");
+			}else{
+				System.out.println("Invalis word. Try again.");
 			}
 		}
+		if (hand.length() == 0) {
+			System.out.println("Ran out of letters. Total score: " + score + " points");
+		}else{
+			System.out.println("End of hand. Total score: " + score + " points");
+		 }
+			
+		}
+		
+		if (hand.length() == 0) {
+	        System.out.println("Ran out of letters. Total score: " + score + " points");
+		} else {
+			System.out.println("End of hand. Total score: " + score + " points");
+		}
+	}
+
 
 	// Plays a Scrabble game. Prompts the user to enter 'n' for playing a new hand, or 'e'
 	// to end the game. If the user enters any other input, writes an error message.
