@@ -48,7 +48,9 @@ public class Scrabble {
 
 	// Checks if the given word is in the dictionary.
 	public static boolean isWordInDictionary(String word) {
-		//// Replace the following statement with your code
+		for (int i = 0; i < NUM_OF_WORDS; i++)
+			if (word.equals(DICTIONARY[i]))
+				return true;
 		return false;
 	}
 	
@@ -56,8 +58,38 @@ public class Scrabble {
 	// If the length of the word equals the length of the hand, adds 50 points to the score.
 	// If the word includes the sequence "runi", adds 1000 points to the game.
 	public static int wordScore(String word) {
-		//// Replace the following statement with your code
-		return 0;
+		int gameScore = 0;
+		for (int i = 0; i < word.length(); i++)
+			gameScore += SCRABBLE_LETTER_VALUES[(int)word.charAt(i) - 97];
+
+		gameScore *= word.length();
+
+		if (word.length() == HAND_SIZE)
+			gameScore += 50;
+		
+		if (word != "" && includeAllLetters(word, "runi")) //* */
+			gameScore += 1000;
+
+		return gameScore;
+	}
+	public static boolean includeAllLetters(String str1, String str2) {
+		int[] letterCount = new int[26];
+	
+		// סופר את האותיות ב-str1
+		for (int i = 0; i < str1.length(); i++) {
+			char ch = str1.charAt(i);
+			letterCount[ch - 'a']++;
+		}
+	
+		// בודק אם כל האותיות ב-str2 קיימות בכמות מספקת ב-str1
+		for (int i = 0; i < str2.length(); i++) {
+			char ch = str2.charAt(i);
+			if (letterCount[ch - 'a'] == 0) {
+				return false;  // חסרה אות
+			}
+			letterCount[ch - 'a']--;
+		}
+		return true;
 	}
 
 	// Creates a random hand of length (HAND_SIZE - 2) and then inserts
