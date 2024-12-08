@@ -12,6 +12,7 @@ public class MyString {
         System.out.println(subsetOf("sap","space")); 
         System.out.println(subsetOf("pass","space")); 
         System.out.println(subsetOf("c","space")); 
+        System.out.println(subsetOf("run","running"));
         System.out.println(randomStringOfLetters(5));
         System.out.println(remove("student", "sut"));
         System.out.println(insertRandomly('s', "cat"));
@@ -47,22 +48,17 @@ public class MyString {
      * @return true is str1 is a subset of str2, false otherwise
      */
     public static boolean subsetOf(String str1, String str2) {
-        if (str2.length() == 0) 
-            return true;
-
-        if (str1.length() > str2.length()) 
+        if (str1 == null || str2 == null) 
             return false;
-        
-        for(int i = 0 ; i < str1.length() ; i++)
-        {
+    
+        for (int i = 0; i < str1.length(); i++) {
             char ch = str1.charAt(i);
-            if(countChar(str1,ch) != countChar(str2, ch))
-            return false;
+            if (countChar(str1, ch) > countChar(str2, ch)) {
+                return false;
+            }
         }
         return true;
     }
-
-
     /** Returns a string which is the same as the given string, with a space
      * character inserted after each character in the given string, except
      * for the last character. 
