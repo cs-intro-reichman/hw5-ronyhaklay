@@ -51,7 +51,7 @@ public class Scrabble {
 		if (word == null) 
 			return false;
 		for (int i = 0; i < DICTIONARY.length; i++) {
-			if (DICTIONARY[i].equals(word) && DICTIONARY[i] != null) 
+			if (DICTIONARY[i] != null && DICTIONARY[i].equals(word)) 
 				return true;
 		}
 		return false;
@@ -66,12 +66,8 @@ public class Scrabble {
 				score += SCRABBLE_LETTER_VALUES[word.charAt(i) - 'a'];
 
 			score *= word.length();
-
-			if (word.length() == HAND_SIZE) 
-				score += 50;
-
-			if (MyString.subsetOf("runi", word)) 
-				score += 1000;
+			score += word.length() == HAND_SIZE ? 50 : 0;
+			score += MyString.subsetOf("runi", word) ? 1000 : 0;
 			return score;
 	}
 
