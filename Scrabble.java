@@ -64,11 +64,11 @@ public class Scrabble {
 		int score = 0;
 		for(int i = 0; i < word.length(); i++)
 			score = score + SCRABBLE_LETTER_VALUES[word.charAt(i) - 'a'];
-
+			
 		score *= word.length();
 		if (word.length() == HAND_SIZE) 
 			score = score + 50;
-			
+
 		if (MyString.subsetOf("runi" , word))
 			score = score + 1000;
 		
@@ -108,25 +108,27 @@ public class Scrabble {
 			//// Replace the following break statement with code
 			//// that completes the hand playing loop
 		
-            if (input.equals(".")) {
+            if (input.equals("."))
                 break;
-            }
-            if (input.isEmpty() || !MyString.subsetOf(input, hand)) {
-                System.out.println("Invalid word. Try again.");
-                continue;
-            }
-            if (!isWordInDictionary(input)) {
-                System.out.println("Invalid word. Try again.");
-                continue;
-            }
-            int wordPoints = wordScore(input);
-            score += wordPoints;
-
-            System.out.printf("%s earned %d points. Score: %d points\n\n", input, wordPoints, score);
-            hand = MyString.remove(hand, input);
-        }
-        System.out.println("End of hand. Total score: " + score + " points");
-    }
+            
+				boolean valid = true;
+				if (input.isEmpty() || !MyString.subsetOf(input, hand)) {
+					System.out.println("Invalid word. Try again.");
+					valid = false;
+				} else if (!isWordInDictionary(input)) {
+					System.out.println("Invalid word. Try again.");
+					valid = false;
+				}
+		
+				if (valid) {
+					int wordPoints = wordScore(input);
+					score += wordPoints;
+					System.out.printf("%s earned %d points. Score: %d points\n\n", input, wordPoints, score);
+					hand = MyString.remove(hand, input);
+				}
+			}
+			System.out.println("End of hand. Total score: " + score + " points");
+		}
 
 	// Plays a Scrabble game. Prompts the user to enter 'n' for playing a new hand, or 'e'
 	// to end the game. If the user enters any other input, writes an error message.
